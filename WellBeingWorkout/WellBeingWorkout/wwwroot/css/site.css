@@ -1,0 +1,180 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.pb-3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 80vh;
+}
+
+.hover-card-effect {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .hover-card-effect:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+/* Custom button colors if needed, or use Bootstrap theme colors */
+.btn-sky {
+    background-color: #0369a1; /* Tailwind sky-700 approx */
+    border-color: #0369a1;
+    color: white;
+}
+
+    .btn-sky:hover {
+        background-color: #0284c7; /* Tailwind sky-600 approx */
+        border-color: #0284c7;
+        color: white;
+    }
+
+.btn-teal {
+    background-color: #0d9488; /* Tailwind teal-600 approx */
+    border-color: #0d9488;
+    color: white;
+}
+
+    .btn-teal:hover {
+        background-color: #14b8a6; /* Tailwind teal-500 approx */
+        border-color: #14b8a6;
+        color: white;
+    }
+
+.text-sky-700 {
+    color: #0369a1 !important;
+}
+/* Tailwind sky-700 */
+.text-sky-600 {
+    color: #0284c7 !important;
+}
+/* Tailwind sky-600 */
+.text-teal-600 {
+    color: #0d9488 !important;
+}
+/* Tailwind teal-600 */
+
+.register-card {
+    background-color: white;
+    border-radius: 0.75rem; /* 12px */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 2rem; /* 32px */
+    width: 100%;
+    max-width: 28rem; /* 448px */
+}
+
+.form-control:focus {
+    border-color: #0284c7; /* Cor similar ao text-sky-600 */
+    box-shadow: 0 0 0 0.25rem rgba(2, 132, 199, 0.25); /* Cor similar ao text-sky-600 com opacidade */
+}
+
+.btn-custom-primary {
+    background-color: #0369a1; /* Cor similar ao btn-sky */
+    border-color: #0369a1;
+    color: white;
+    font-weight: 600;
+}
+
+    .btn-custom-primary:hover {
+        background-color: #0284c7; /* Cor similar ao hover do btn-sky */
+        border-color: #0284c7;
+        color: white;
+    }
+
+.challenge-card {
+    background-color: white;
+    border-radius: 0.75rem; /* 12px */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Para garantir que os cards na mesma linha tenham a mesma altura */
+}
+
+    .challenge-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+.card-body {
+    flex-grow: 1; /* Faz o corpo do card ocupar o espaço disponível */
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    color: #0369a1; /* Azul escuro para o título */
+}
+
+.card-text {
+    flex-grow: 1; /* Faz o texto ocupar o espaço antes do botão */
+}
+
+.btn-complete {
+    background-color: #10b981; /* Verde para botão de concluir */
+    border-color: #10b981;
+    color: white;
+    font-weight: 500;
+}
+
+    .btn-complete:hover {
+        background-color: #059669;
+        border-color: #059669;
+        color: white;
+    }
+
+.btn-completed {
+    background-color: #6b7280; /* Cinza para botão concluído */
+    border-color: #6b7280;
+    color: white;
+    cursor: not-allowed;
+}
+
+.xp-badge {
+    font-size: 0.9em;
+    padding: 0.4em 0.7em;
+    background-color: #f59e0b; /* Amarelo/Laranja para XP */
+    color: white;
+}
+
+.difficulty-title {
+    color: #0369a1; /* Azul escuro para títulos de dificuldade */
+    border-bottom: 2px solid #0284c7; /* Linha azul clara abaixo do título */
+    padding-bottom: 0.5rem;
+    margin-top: 2rem;
+}
+
+.navbar-brand-custom {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 700;
+    color: #0369a1 !important; /* Cor similar ao text-sky-700 */
+}
+
+.nav-link-custom {
+    color: #0369a1 !important;
+}
+
+    .nav-link-custom:hover {
+        color: #0284c7 !important;
+    }

@@ -1,0 +1,145 @@
+﻿@using WellBeingWorkout.Models.ViewModels;
+@using WellBeingWorkout.Models.Enuns;
+
+@model List<ChallengeViewModel>
+
+@{
+    ViewData["Title"] = "AllChallenges";
+
+    var easyChallenges = Model.Where(x => x.ChallengeLevel == ChallengeLevel.EASY);
+    var midChallenges = Model.Where(x => x.ChallengeLevel == ChallengeLevel.MID);
+    var hardChallenges = Model.Where(x => x.ChallengeLevel == ChallengeLevel.HARD);
+}
+
+<div class="container">
+    <header class="text-center mb-5">
+        <h1 class="display-5 fw-bold" style="color: #0369a1;">Desafios Diários</h1>
+        <p class="lead text-muted">Complete os desafios, ganhe XP e transforme seus hábitos!</p>
+    </header>
+
+    <section id="easy-challenges">
+        <h2 class="mb-4 difficulty-title fw-semibold"><i class="fas fa-seedling me-2"></i>Nível Fácil</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var item in easyChallenges)
+            {
+
+                <div class="col">
+                    <div class="challenge-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title fw-bold">@item.Name</h5>
+                                <span class="badge xp-badge rounded-pill">@item.TotalXp XP</span>
+                            </div>
+                            <p class="card-text text-muted small mb-3">@item.Description</p>
+                            @if (item.IsCompleted)
+                            {
+                                <button class="btn btn-completed w-100 mt-auto">
+                                    <i class="fas fa-check-circle me-2"></i>Concluído!
+                                </button>
+                            }
+                            else
+                            {
+                                <button id="@item.Id" class="btn btn-complete w-100 mt-auto" onclick="completeChallenge(this)">
+                                    <i class="fas fa-check me-2"></i>Marcar como Concluído
+                                </button>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </section>
+
+    <section id="mid-challenges" class="mt-5">
+        <h2 class="mb-4 difficulty-title fw-semibold"><i class="fas fa-running me-2"></i>Nível Médio</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var item in midChallenges)
+            {
+
+                <div class="col">
+                    <div class="challenge-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title fw-bold">@item.Name</h5>
+                                <span class="badge xp-badge rounded-pill">@item.TotalXp XP</span>
+                            </div>
+                            <p class="card-text text-muted small mb-3">@item.Description</p>
+                            @if (item.IsCompleted)
+                            {
+                                <button class="btn btn-completed w-100 mt-auto">
+                                    <i class="fas fa-check-circle me-2"></i>Concluído!
+                                </button>
+                            }
+                            else
+                            {
+                                <button id="@item.Id" class="btn btn-complete w-100 mt-auto" onclick="completeChallenge(this)">
+                                    <i class="fas fa-check me-2"></i>Marcar como Concluído
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            }
+    </section>
+
+    <section id="hard-challenges" class="mt-5">
+        <h2 class="mb-4 difficulty-title fw-semibold"><i class="fas fa-mountain me-2"></i>Nível Difícil</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var item in hardChallenges)
+            {
+
+                <div class="col">
+                    <div class="challenge-card">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title fw-bold">@item.Name</h5>
+                                <span class="badge xp-badge rounded-pill">@item.TotalXp XP</span>
+                            </div>
+                            <p class="card-text text-muted small mb-3">@item.Description</p>
+                            @if (item.IsCompleted)
+                            {
+                                <button class="btn btn-completed w-100 mt-auto">
+                                    <i class="fas fa-check-circle me-2"></i>Concluído!
+                                </button>
+                            }
+                            else
+                            {
+                                <button id="@item.Id" class="btn btn-complete w-100 mt-auto" onclick="completeChallenge(this)">
+                                    <i class="fas fa-check me-2"></i>Marcar como Concluído
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+
+</div>
+
+@section Scripts {
+    <script>
+        function completeChallenge(button) {
+            button.classList.remove('btn-complete');
+            button.classList.add('btn-completed');
+            button.innerHTML = '<i class="fas fa-check-circle me-2"></i>Concluído!';
+            button.disabled = true;
+            var id = button.id;
+
+            fetch('/Challenge/MarkChallengeAsDone?userId=1&challenge=' + id, {
+                method: 'POST',
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Erro na requisição');
+                return response.text();
+            })
+
+        }
+    </script>
+}
+
+                            

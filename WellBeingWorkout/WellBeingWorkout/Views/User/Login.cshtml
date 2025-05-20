@@ -1,0 +1,35 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="register-card">
+    <h2 class="text-center fw-bold mb-4" style="color: #0369a1;">Entre na sua conta</h2>
+    <p class="text-center text-muted mb-4">Preencha os campos abaixo para entrar.</p>
+
+    <form asp-action="Login" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label fw-medium">Email</label>
+            <input asp-for="Email" class="form-control form-control-lg rounded-3" placeholder="seuemail@exemplo.com" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label fw-medium">Senha</label>
+            <input asp-for="Password" type="password" class="form-control form-control-lg rounded-3" placeholder="" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-custom-primary btn-lg w-100 rounded-3">Entrar</button>
+    </form>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
