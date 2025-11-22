@@ -1,14 +1,18 @@
 ﻿@using WellBeingWorkout.Models.ViewModels;
 @using WellBeingWorkout.Models.Enuns;
+@using System.Linq;
 
-@model List<ChallengeViewModel>
+@model Tuple<List<ChallengeViewModel>, UserProgressViewModel>
 
 @{
     ViewData["Title"] = "AllChallenges";
 
-    var easyChallenges = Model.Where(x => x.ChallengeLevel == ChallengeLevel.EASY);
-    var midChallenges = Model.Where(x => x.ChallengeLevel == ChallengeLevel.MID);
-    var hardChallenges = Model.Where(x => x.ChallengeLevel == ChallengeLevel.HARD);
+    var easyChallenges = Model.Item1.Where(x => x.ChallengeLevel == ChallengeLevel.EASY);
+    var midChallenges = Model.Item1.Where(x => x.ChallengeLevel == ChallengeLevel.MID);
+    var hardChallenges = Model.Item1.Where(x => x.ChallengeLevel == ChallengeLevel.HARD);
+
+    var totalXpPossible = Model.Item1.Sum(x => x.TotalXp);
+    var totalXpMade = Model.Item1.Where(x => x.IsCompleted).Sum(x => x.TotalXp);
 }
 
 <div class="container">
@@ -16,6 +20,33 @@
         <h1 class="display-5 fw-bold" style="color: #0369a1;">Desafios Diários</h1>
         <p class="lead text-muted">Complete os desafios, ganhe XP e transforme seus hábitos!</p>
     </header>
+
+    <section id="progress">
+        <h2 class="mb-4 difficulty-title fw-semibold">
+            <i class="fas fa-seedling me-2"></i>Meu progresso
+        </h2>
+
+        <div class="progress">
+            <div class="progress-bar"
+                 role="progressbar"
+                 style="width: @Model.Item2.TotalProgressPorcentage%;"
+                 aria-valuenow="@Model.Item2.TotalProgressPorcentage"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+                @Model.Item2.TotalProgressPorcentage%
+            </div>
+        </div>
+
+        <h5 id="nivel-atual" class="card-title fw-bold">
+            Nível atual: @Model.Item2.Level - Total XP: @Model.Item2.TotalXpEarned
+        </h5>
+
+        <h5 id="xp-proximo-nivel" class="card-title fw-bold">
+            XP necessário para o próximo nível: @Model.Item2.TotalXpForNextLevel
+        </h5>
+    </section>
+
+
 
     <section id="easy-challenges">
         <h2 class="mb-4 difficulty-title fw-semibold"><i class="fas fa-seedling me-2"></i>Nível Fácil</h2>
@@ -128,18 +159,29 @@
             button.classList.add('btn-completed');
             button.innerHTML = '<i class="fas fa-check-circle me-2"></i>Concluído!';
             button.disabled = true;
-            var id = button.id;
 
-            fetch('/Challenge/MarkChallengeAsDone?userId=1&challenge=' + id, {
-                method: 'POST',
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Erro na requisição');
-                return response.text();
-            })
+            const id = button.id;
+            const userId = @Model.Item2.UserId;
 
+            fetch('/Challenge/MarkChallengeAsDone?userId=' + userId + '&challenge=' + id, {
+                method: 'POST'
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error('Erro na requisição');
+                    return response.json();
+                })
+                .then(data => {
+                    document.querySelector('#progress .progress-bar').style.width = data.totalProgressPorcentage + "%";
+                    document.querySelector('#progress .progress-bar').innerText = data.totalProgressPorcentage + "%";
+                    document.querySelector('#progress .progress-bar').setAttribute("aria-valuenow", data.totalProgressPorcentage);
+
+                    document.getElementById('nivel-atual').innerText = `Nível atual: ${data.level} - Total XP: ${data.totalXpEarned}`;
+                    document.getElementById('xp-proximo-nivel').innerText = `XP necessário para o próximo nível: ${data.totalXpForNextLevel}`;
+                })
+                .catch(error => console.error(error));
         }
     </script>
 }
+
 
                             

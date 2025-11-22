@@ -27,9 +27,9 @@ public class ChallengeService : IChallengeService
         {
             bool isCompleted = false;
 
-            var completed = completedChallenges.FirstOrDefault(x => x.ChallengeId == item.Id);
+            var completed = completedChallenges.FirstOrDefault(x => x.ChallengeId == item.Id && x.DtCompleted == DateOnly.FromDateTime(DateTime.Now));
            
-            if(completed != null && DateOnly.FromDateTime(DateTime.Now) == completed.DtCompleted )
+            if(completed != null)
                 isCompleted = true;
 
             var challengeViewModel = new ChallengeViewModel(item.Id, item.Name, item.Description, isCompleted, item.TotalXp, item.ChallengeLevel); 

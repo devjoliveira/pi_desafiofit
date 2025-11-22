@@ -1,4 +1,5 @@
-﻿using WellBeingWorkout.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using WellBeingWorkout.Data;
 
 public class UserChallengeService : IUserChallengeService
 {
@@ -31,6 +32,26 @@ public class UserChallengeService : IUserChallengeService
 
         await this.UpdateUserLevelAsync(user, challenge);
 
+    }
+
+    public async Task<UserProgressViewModel> GetUserProgress(int userId)
+    {
+        var user = await _context.User.FirstOrDefaultAsync(x => x.Id == userId);
+
+        if (user == null)
+            throw new Exception("User not found");
+
+        var userProgress = new UserProgressViewModel();
+
+        int xpInThisLevel = user.TotalXpEarned % 100;
+
+        userProgress.UserId = user.Id;
+        userProgress.TotalXpEarned = user.TotalXpEarned;
+        userProgress.Level = user.Level;
+        userProgress.TotalXpForNextLevel = 100 - xpInThisLevel;
+        userProgress.TotalProgressPorcentage = (xpInThisLevel / 100.0) * 100;
+
+        return userProgress;
     }
 
     private async Task UpdateUserLevelAsync(User user, Challenge challenge)
